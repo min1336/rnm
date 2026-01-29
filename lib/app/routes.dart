@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../features/course/presentation/screens/course_list_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 
 /// App routes configuration using go_router
@@ -25,16 +26,16 @@ class AppRoutes {
         name: 'home',
         builder: (context, state) => const HomeScreen(),
       ),
+      GoRoute(
+        path: courses,
+        name: 'courses',
+        builder: (context, state) => const CourseListScreen(),
+      ),
       // TODO: Add more routes as screens are implemented
       // GoRoute(
       //   path: login,
       //   name: 'login',
       //   builder: (context, state) => const LoginScreen(),
-      // ),
-      // GoRoute(
-      //   path: courses,
-      //   name: 'courses',
-      //   builder: (context, state) => const CoursesScreen(),
       // ),
       // GoRoute(
       //   path: courseDetail,
