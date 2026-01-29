@@ -49,3 +49,6 @@ venv/
 
 # Coverage
 coverage/
+
+# Worktrees
+.worktrees/
