@@ -116,7 +116,7 @@ class _ContextHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(AppSizes.spacing16),
-      color: AppColors.primary.withOpacity(0.1),
+      color: AppColors.primary.withValues(alpha: 0.1),
       child: Row(
         children: [
           Text(icon, style: const TextStyle(fontSize: 24)),
