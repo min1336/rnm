@@ -30,7 +30,7 @@ class _RunningMateAppState extends ConsumerState<RunningMateApp> {
     // Show loading while checking auth
     if (authState == AuthState.initial) {
       return MaterialApp(
-        theme: AppTheme.light,
+        theme: AppTheme.lightTheme,
         home: const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),
@@ -41,7 +41,7 @@ class _RunningMateAppState extends ConsumerState<RunningMateApp> {
 
     return MaterialApp.router(
       title: 'RunningMate',
-      theme: AppTheme.light,
+      theme: AppTheme.lightTheme,
       routerConfig: createRouter(authState),
     );
   }

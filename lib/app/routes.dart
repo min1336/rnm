@@ -1,5 +1,4 @@
 // lib/app/routes.dart
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/domain/entities/auth_state.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
