@@ -1,4 +1,4 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../data/datasources/gamification_remote_datasource.dart';
 import '../../data/repositories/gamification_repository_impl.dart';
@@ -9,69 +9,76 @@ import '../../domain/entities/user_level.dart';
 import '../../domain/repositories/gamification_repository.dart';
 import '../../domain/usecases/process_run_completion.dart';
 
-part 'gamification_providers.g.dart';
-
-@riverpod
-GamificationRemoteDataSource gamificationDataSource(GamificationDataSourceRef ref) {
+// Data Sources
+final gamificationDataSourceProvider =
+    Provider<GamificationRemoteDataSource>((ref) {
   return GamificationRemoteDataSource(Supabase.instance.client);
-}
+});
 
-@riverpod
-GamificationRepository gamificationRepository(GamificationRepositoryRef ref) {
-  final dataSource = ref.watch(gamificationDataSourceProvider);
-  return GamificationRepositoryImpl(dataSource);
-}
+// Repositories
+final gamificationRepositoryProvider = Provider<GamificationRepository>((ref) {
+  return GamificationRepositoryImpl(ref.watch(gamificationDataSourceProvider));
+});
 
-@riverpod
-ProcessRunCompletion processRunCompletion(ProcessRunCompletionRef ref) {
-  final repository = ref.watch(gamificationRepositoryProvider);
-  return ProcessRunCompletion(repository: repository);
-}
+// Use Cases
+final processRunCompletionProvider = Provider<ProcessRunCompletion>((ref) {
+  return ProcessRunCompletion(
+    repository: ref.watch(gamificationRepositoryProvider),
+  );
+});
 
-@riverpod
-Future<UserLevel> userLevel(UserLevelRef ref, String userId) async {
+// State - User Level
+final userLevelProvider =
+    FutureProvider.autoDispose.family<UserLevel, String>((ref, userId) async {
   final repository = ref.watch(gamificationRepositoryProvider);
   return repository.getUserLevel(userId);
-}
+});
 
-@riverpod
-Future<List<UserAchievement>> userAchievements(UserAchievementsRef ref, String userId) async {
+// State - User Achievements
+final userAchievementsProvider = FutureProvider.autoDispose
+    .family<List<UserAchievement>, String>((ref, userId) async {
   final repository = ref.watch(gamificationRepositoryProvider);
   return repository.getUserAchievements(userId);
-}
+});
 
-@riverpod
-Future<List<Achievement>> allAchievements(AllAchievementsRef ref) async {
+// State - All Achievements
+final allAchievementsProvider =
+    FutureProvider.autoDispose<List<Achievement>>((ref) async {
   final repository = ref.watch(gamificationRepositoryProvider);
   return repository.getAllAchievements();
-}
+});
 
-@riverpod
-Future<List<Challenge>> activeChallenges(ActiveChallengesRef ref) async {
+// State - Active Challenges
+final activeChallengesProvider =
+    FutureProvider.autoDispose<List<Challenge>>((ref) async {
   final repository = ref.watch(gamificationRepositoryProvider);
   return repository.getActiveChallenges();
-}
+});
 
-@riverpod
-Future<List<UserChallenge>> userChallenges(UserChallengesRef ref, String userId) async {
+// State - User Challenges
+final userChallengesProvider = FutureProvider.autoDispose
+    .family<List<UserChallenge>, String>((ref, userId) async {
   final repository = ref.watch(gamificationRepositoryProvider);
   return repository.getUserChallenges(userId);
-}
+});
 
-@riverpod
-Future<List<LeaderboardEntry>> weeklyLeaderboard(WeeklyLeaderboardRef ref) async {
+// State - Weekly Leaderboard
+final weeklyLeaderboardProvider =
+    FutureProvider.autoDispose<List<LeaderboardEntry>>((ref) async {
   final repository = ref.watch(gamificationRepositoryProvider);
   return repository.getLeaderboard(LeaderboardType.weeklyDistance);
-}
+});
 
-@riverpod
-Future<List<LeaderboardEntry>> monthlyLeaderboard(MonthlyLeaderboardRef ref) async {
+// State - Monthly Leaderboard
+final monthlyLeaderboardProvider =
+    FutureProvider.autoDispose<List<LeaderboardEntry>>((ref) async {
   final repository = ref.watch(gamificationRepositoryProvider);
   return repository.getLeaderboard(LeaderboardType.monthlyDistance);
-}
+});
 
-@riverpod
-Future<LeaderboardEntry?> userWeeklyRank(UserWeeklyRankRef ref, String userId) async {
+// State - User Weekly Rank
+final userWeeklyRankProvider = FutureProvider.autoDispose
+    .family<LeaderboardEntry?, String>((ref, userId) async {
   final repository = ref.watch(gamificationRepositoryProvider);
   return repository.getUserRank(userId, LeaderboardType.weeklyDistance);
-}
+});

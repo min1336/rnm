@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../data/datasources/course_remote_datasource.dart';
 import '../../data/repositories/course_repository_impl.dart';
+import '../../domain/entities/course.dart';
 import '../../domain/entities/running_context.dart';
 import '../../domain/repositories/course_repository.dart';
 import '../../domain/services/context_detector.dart';
@@ -54,6 +55,12 @@ final selectedContextProvider = StateProvider<RunningContext?>((ref) => null);
 final userLocationProvider = StateProvider<({double lat, double lng})?>(
   (ref) => null,
 );
+
+// Course Detail
+final courseDetailProvider = FutureProvider.autoDispose.family<Course?, String>((ref, courseId) async {
+  final repository = ref.watch(courseRepositoryProvider);
+  return repository.getCourseById(courseId);
+});
 
 // Recommendations
 final recommendationsProvider = FutureProvider.autoDispose<RecommendationResult>((ref) async {

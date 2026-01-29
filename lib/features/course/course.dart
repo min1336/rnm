@@ -16,6 +16,7 @@ export 'data/repositories/course_repository_impl.dart';
 
 // Presentation
 export 'presentation/providers/course_providers.dart';
+export 'presentation/screens/course_detail_screen.dart';
 export 'presentation/screens/course_list_screen.dart';
 export 'presentation/widgets/context_confirm_dialog.dart';
 export 'presentation/widgets/course_card.dart';

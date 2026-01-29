@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/domain/entities/auth_state.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/onboarding_screen.dart';
+import '../features/course/presentation/screens/course_detail_screen.dart';
+import '../features/course/presentation/screens/course_list_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 
 GoRouter createRouter(AuthState authState) {
@@ -43,6 +45,14 @@ GoRouter createRouter(AuthState authState) {
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/course/:id',
+        name: 'courseDetail',
+        builder: (context, state) {
+          final courseId = state.pathParameters['id']!;
+          return CourseDetailScreen(courseId: courseId);
+        },
       ),
     ],
   );
